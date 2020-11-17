@@ -1,0 +1,69 @@
+/*Given an array of integers A sorted in non-decreasing order, return an array of the squares of each number, also in sorted non-decreasing order.
+
+ 
+
+Example 1:
+
+Input: [-4,-1,0,3,10]
+Output: [0,1,9,16,100]
+Example 2:
+
+Input: [-7,-3,2,3,11]
+Output: [4,9,9,49,121]
+ 
+
+Note:
+
+1 <= A.length <= 10000
+-10000 <= A[i] <= 10000
+A is sorted in non-decreasing order.*/
+
+
+#### 2 pointer approach with O(N) time complexity and O(N) space complexity
+##### Another approach was simple square the items and then sort it which was having NlogN time complexity
+
+
+
+class Solution {
+    public int[] sortedSquares(int[] A) 
+    {
+ 
+        int breakpoint = 0;
+        for(int i = 0 ; i < A.length - 1;i++)
+        {
+            if(A[i] < 0 && A[i+1] >=0)
+            {
+                breakpoint=i;
+            }
+        }
+        int[] B = new int[A.length];
+        for(int left=breakpoint,right = breakpoint + 1,i=0;i < B.length;i++)
+        {
+            if(left >= 0 && right < B.length)
+            {
+                int a = A[left]*A[left];
+                int b = A[right]*A[right];
+                if(a <= b)
+                {
+                    B[i]=a;
+                    left--;
+                }else
+                {
+                    B[i]=b;
+                    right++;
+                }
+                
+            }else if(left < 0)
+            {
+                B[i]=A[right]*A[right];
+                right++;
+            }else if(right >= B.length)
+            {
+                B[i]=A[left]*A[left];
+                left--;
+            }
+        }
+        return B;
+        
+    }
+}
